@@ -1,0 +1,29 @@
+=====(TRAIN INFORMATION BEGIN)=====
+5
+Taipei, Hsinchu, Taichung, Tainan, Zuoying
+======(TRAIN INFORMATION END)======
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+==========(REQUEST BEGIN)==========
+RESERVE Chi-Hung, Taipei, Hsinchu, 3, 6 3A, 6 3B, 6 3C
+RESERVE Angel, Taipei, Taichung, 4, 2 1D, 2 1E, 2 2D, 2 2E
+RESERVE Roger, Hsinchu, Zuoying, 2, 1 1A, 1 1A
+RESERVE Allen, Taipei, Miaoli, 2, 10 11B, 10 11C
+RESERVE Samuel, Taipei, Taichung, 1, 6 3A
+RESERVE Starbucks, Banqiao, Hsinchu, 2, 12 20D, 12 20E
+RESERVE Louis, Taichung, Zuoying, 5, 1 1A, 1 1B, 1 1C, 1 1D, 1 1E
+RESERVE Sam, Yunlin, Nangang, 4, 2 1A, 2 1B, 2 2A, 2 2B
+RESERVE Grace, Yunlin, Hsinchu, 2, 2 2A, 2 3A
+RESERVE Chi-Hung, Hsinchu, Taichung, 1, 6 3A
+RESERVE Chi-Hung, Tainan, Zuoying, 1, 6 3A
+CANCEL Angel, Taipei, Hsinchu, 6 3B
+CANCEL Chi-Hung, Taipei, Taichung, 6 3C
+CANCEL Chi-Hung, Taipei, Yunlin, 6 3C
+CANCEL Angel, Taipei, Hsinchu, 2 1D
+CANCEL Angel, Taipei, Taichung, 2 1E
+CHECK Sam, 2 1A
+CHECK Chi-Hung, 6 3A
+CHECK Chi-Hung, 6 3B
+CANCEL Chi-Hung, Taipei, Hsinchu, 6 3B
+CHECK Chi-Hung, 6 3B
+CHECK Angel, 2 1D
+===========(REQUEST END)===========

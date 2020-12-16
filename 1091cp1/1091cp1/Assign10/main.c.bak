@@ -1,0 +1,230 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+char table[5][6];
+char table[5][6];
+
+struct team {
+	char name[100];
+	char attr[100];
+	int atk;
+	int rec;
+	double total;
+	double recc;
+};
+
+void print_t(){
+	for(int i = 0; i < 5; i++){
+		for(int j = 0; j < 6; j++){
+			printf("%c",table[i][j]);
+		}
+		puts("");
+	}
+}
+
+void fill(int x, int y){
+	table2
+}
+
+int main()
+{
+	char sky[200][6];
+	struct team teams[6];
+	int input_lines = 0;
+	char trash[100];
+	char desolve[10000];
+	int desolve_count = 0;
+	for(int i = 0; i < 6; i++){
+		gets(trash);
+		scanf("%s %c ", trash,trash);
+		gets(teams[i].name);
+		scanf("%s %c ", trash,trash);
+		gets(teams[i].attr);	
+		scanf("%s %c", trash,trash);
+		scanf(" %d\n", &teams[i].atk);
+		scanf("%s %c ", trash,trash);
+		scanf(" %d\n", &teams[i].rec);
+		teams[i].total = 0;
+		teams[i].recc = 0;
+	}
+	for(int i = 0; i < 6; i++){
+		printf("%s,%s,%d,%d\n", teams[i].name, teams[i].attr, teams[i].atk, teams[i].rec);	
+	}
+	gets(trash);
+	while(1){
+		gets(sky[input_lines]);
+		if(strcmp(sky[input_lines],"------") == 0){
+			break;
+		}
+		input_lines ++;
+	}
+	for(int i = 0; i < 5; i++){
+		scanf("%s",&table[i][0]);
+	}
+	int column[6];
+	for(int i = 0; i < 6; i++){
+		column[i] = input_lines-1;
+	}
+	print_t(table);
+	puts("======");
+	while(1){
+		for(int i = 0; i < 5; i++){
+			for(int j = 0; j < 6; j++){
+				int counter = 0;
+				char table2[5][6];
+				int tmp_desolve_count = 0;
+				char tmp_desolve[1000];
+				memcpy(table2,table,sizeof(table));
+				char this_plot = table2[i][j];
+				while(tolower(this_plot) == tolower(table2[i][j+counter]) && j+counter < 6 && isalpha(this_plot) && isalpha(table2[i][j+counter])){	
+					tmp_desolve[tmp_desolve_count] = table2[i][j+counter];
+					tmp_desolve_count++;
+					table2[i][j+counter] = '&';
+					counter++;
+				}
+				tmp_desolve[tmp_desolve_count] = '\0';
+				if(counter >= 3){
+					strcat(desolve,tmp_desolve);
+					desolve_count += tmp_desolve_count;
+					memcpy(table,table2,sizeof(table));
+					for(int k = 0; k < counter; k++){
+						memcpy(table2,table,sizeof(table));
+						tmp_desolve_count = 0;
+						int tmp = 1;
+						int tmp2 = 0;
+						while(tolower(this_plot) == tolower(table2[i+tmp2+1][j+k]) && i+tmp2+1 < 5){
+							tmp_desolve[tmp_desolve_count] = table2[i+tmp2+1][j+k];
+							tmp_desolve_count++;
+							table2[i+tmp2+1][j+k] = '&';
+							tmp2++;
+						}
+						tmp += tmp2;
+						tmp2 = 0;
+						while(tolower(this_plot) == tolower(table2[i-tmp2-1][j+k]) && i-tmp2-1 >= 0){	
+							tmp_desolve[tmp_desolve_count] = table2[i-tmp2-1][j+k];
+							tmp_desolve_count++;
+							table2[i-tmp2-1][j+k] = '&';
+							tmp2++;
+						}
+						tmp += tmp2;
+						tmp_desolve[tmp_desolve_count] = '\0';
+						if(tmp >= 3){
+							desolve_count += tmp_desolve_count;
+							strcat(desolve,tmp_desolve);
+							memcpy(table,table2,sizeof(table));
+						}
+					}
+				}
+			}
+		}
+		for(int i = 0; i < 5; i++){
+			for(int j = 0; j < 6; j++){
+				int counter = 0;
+				char table2[5][6];
+				int tmp_desolve_count = 0;
+				char tmp_desolve[1000];
+				memcpy(table2,table,sizeof(table));
+				char this_plot = table2[i][j];
+				while(tolower(this_plot) == tolower(table2[i+counter][j]) && i+counter < 5 && isalpha(this_plot) && isalpha(table2[i+counter][j])){	
+					tmp_desolve[tmp_desolve_count] = table2[i+counter][j];
+					tmp_desolve_count++;
+					table2[i+counter][j] = '&';
+					counter++;
+				}
+				tmp_desolve[tmp_desolve_count] = '\0';
+				if(counter >= 3){
+					desolve_count += tmp_desolve_count;
+					strcat(desolve,tmp_desolve);
+					memcpy(table,table2,sizeof(table));
+				}
+			}
+		}
+		print_t(table);
+		puts("======");
+		int star_status = 0;
+		for(int i = 0; i < 5; i++){
+			for(int j = 0; j < 6; j++){
+				if(table[i][j] == '&'){
+					star_status = 1;
+					break;
+				}
+			}
+		}
+		if(star_status == 0){
+			printf("All done!\n");
+			break;
+		}
+		// let the & to the top.
+		for(int i = 0; i < 6; i++){
+			for(int j = 4;j >= 0; j--){
+				int j_counter = 1;
+				while(table[j][i] == '&' && j_counter < 6){
+					for(int k = j; k > 0; k--){
+						table[k][i] = table[k-1][i];
+					}
+					table[0][i] = '&';
+					j_counter ++;
+				}
+			}
+			for(int j = 4; j >= 0; j--){
+				if(table[j][i] == '&'){
+					table[j][i] = sky[column[i]][i];
+					column[i]--;
+				}
+			}
+		}
+
+		//start drop the stone
+		print_t(table);
+		puts("======");
+	}
+	printf("%d\n%s\n======\n",desolve_count,desolve);
+	double attr_sum[6] = {0};
+	double odt = 0.333333;
+	for(int i = 0; i < desolve_count; i++){
+		if(desolve[i] == 'h'){
+			attr_sum[5] += odt;
+		}else if(desolve[i] == 'H'){
+			attr_sum[5] += 0.5;
+		}else if(desolve[i] == 'w'){
+			attr_sum[0] += odt;
+		}else if(desolve[i] == 'W'){
+			attr_sum[0] += 0.5;
+		}else if(desolve[i] == 'f'){
+			attr_sum[1] += odt;
+		}else if(desolve[i] == 'F'){
+			attr_sum[1] += 0.5;
+		}else if(desolve[i] == 'e'){
+			attr_sum[2] += odt;
+		}else if(desolve[i] == 'E'){
+			attr_sum[2] += 0.5;
+		}else if(desolve[i] == 'l'){
+			attr_sum[3] += odt;
+		}else if(desolve[i] == 'L'){
+			attr_sum[3] += 0.5;
+		}else if(desolve[i] == 'd'){
+			attr_sum[4] += odt;
+		}else if(desolve[i] == 'D'){
+			attr_sum[4] += 0.5;
+		}
+	}
+	for(int i = 0; i < 6; i++){
+		if(teams[i].attr[0] == 'W'){
+			teams[i].total = teams[i].atk * attr_sum[0];
+		}else if(teams[i].attr[0] == 'F'){
+			teams[i].total = teams[i].atk * attr_sum[1];
+		}else if(teams[i].attr[0] == 'E'){
+			teams[i].total = teams[i].atk * attr_sum[2];
+		}else if(teams[i].attr[0] == 'L'){
+			teams[i].total = teams[i].atk * attr_sum[3];
+		}else if(teams[i].attr[0] == 'D'){
+			teams[i].total = teams[i].atk * attr_sum[4];
+		}
+		teams[i].recc = teams[i].rec * attr_sum[5];
+		printf("%s %.0lf %.0lf\n",teams[i].name, teams[i].total, teams[i].recc);
+	}
+	for(int i = 0; i < 6; i++){
+		printf("%lf\n", attr_sum[i]);
+	}
+	return 0;
+}
