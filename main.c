@@ -1,43 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void BFS(char table[1000][1000], int* q_i, int* q_j, int start, int end, int n, int m, int step, int* min){
-    int index_i = *(q_i+start);
-    int index_j = *(q_j+start);
-    if(index_i == n-1 && index_j == m-1){
-        *min = step+1;
-        return;
-    }
-    if(table[index_i][index_j] == '*'){
-        return;
-    }
-    table[index_i][index_j] = '*';
-    if(table[index_i+1][index_j] == '.' && index_i+1 < n){
-        *(q_i+end) = index_i+1;
-        *(q_j+end) = index_j;
-        end++;
-    }
-    if(table[index_i-1][index_j] == '.' && index_i-1 >= 0){
-        *(q_i+end) = index_i-1;
-        *(q_j+end) = index_j;
-        end++;
-    }
-    if(table[index_i][index_j+1] == '.' && index_j+1 < m){
-        *(q_i+end) = index_i;
-        *(q_j+end) = index_j+1;
-        end++;
-    }
-    if(table[index_i][index_j-1] == '.' && index_j-1 >= 0){
-        *(q_i+end) = index_i;
-        *(q_j+end) = index_j-1;
-        end++;
-    }
-    if(start != end){
-        printf("(%d,%d),step:%d\n",index_i, index_j, step);
-        BFS(table, q_i, q_j, start+1, end, n, m, step+1, min);
-    }
-    
-}
+struct que{
+    int i;
+    int j;
+    int step;
+};
+typedef struct que que;
 
 int main(){
     int M = 0;
@@ -45,21 +14,68 @@ int main(){
     for(int i = 0; i < M; ++i){
         int n,m;
         scanf("%d %d\n", &n, &m);
-        char table[1000][1000];
+        char table[1010][1010];
         for(int j = 0; j < n; ++j){
             scanf("%s", table[j]);
         }
-        int *q_i = malloc(sizeof(int) * 1000000);
-        int *q_j = malloc(sizeof(int) * 1000000);
-        *q_i = 0;
-        *q_j = 0;
-        int start = 0, end = 1;
-        int min = 0;
-        BFS(table, q_i, q_j, start, end, n, m, 0, &min);
-        if(min == 0){
+        que *q = malloc(sizeof(que) * 1000100);
+        q->i = 0;
+        q->j = 0;
+        q->step = 1;
+        int start = 0, end = 1, step = 1, ans = 0;
+        while(end - start > 0){
+            int tmp_end = end;
+            for(int i = start; i < tmp_end; ++i){
+                int index_i = (q+i)->i;
+                int index_j = (q+i)->j;
+                //printf("(%d,%d) step:%d\n", index_i, index_j, (q+i)->step);
+                if(index_i == n-1 && index_j == m-1){
+                    ans = step-1;
+                    break;
+                }
+                if(table[index_i][index_j] == '*'){
+                    continue;
+                }
+                table[index_i][index_j] = '*';
+                if(table[index_i+1][index_j] == '.' && index_i+1 < n){
+                    (q+end)->i = index_i+1;
+                    (q+end)->j = index_j;
+                    (q+end)->step = step;
+                    //printf("empty: (%d,%d)\n", (q+end)->i, (q+end)->j);
+                    end++;
+                }
+                if(table[index_i-1][index_j] == '.' && index_i-1 >= 0){
+                    (q+end)->i = index_i-1;
+                    (q+end)->j = index_j;
+                    (q+end)->step = step;
+                    //printf("empty: (%d,%d)\n", (q+end)->i, (q+end)->j);
+                    end++;
+                }
+                if(table[index_i][index_j+1] == '.' && index_j+1 < m){
+                    (q+end)->i = index_i;
+                    (q+end)->j = index_j+1;
+                    (q+end)->step = step;
+                    //printf("empty: (%d,%d)\n", (q+end)->i, (q+end)->j);
+                    end++;
+                }
+                if(table[index_i][index_j-1] == '.' && index_j-1 >= 0){
+                    (q+end)->i = index_i;
+                    (q+end)->j = index_j-1;
+                    (q+end)->step = step;
+                    //printf("empty: (%d,%d)\n", (q+end)->i, (q+end)->j);
+                    end++;
+                }
+            }
+            if(ans != 0){
+                break;
+            }
+            start = tmp_end;
+            step++;
+        }
+        if(ans == 0){
             puts("unbelievable");
         }else{
-            printf("%d\n", min);
+            printf("%d\n", ans);
         }
     }
     return 0;
