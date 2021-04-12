@@ -9,20 +9,20 @@ struct que{
 typedef struct que que;
 
 int main(){
-    int M = 0;
+    int M;
+    char table[1010][1010];
     scanf("%d\n", &M);
     for(int i = 0; i < M; ++i){
         int n,m;
         scanf("%d %d\n", &n, &m);
-        char table[1010][1010];
         for(int j = 0; j < n; ++j){
             scanf("%s", table[j]);
         }
         que *q = malloc(sizeof(que) * 1000100);
         q->i = 0;
         q->j = 0;
-        q->step = 1;
-        int start = 0, end = 1, step = 1, ans = 0;
+        q->step = 0;
+        int start = 0, end = 1, step = 0, ans = 0;
         while(end - start > 0){
             int tmp_end = end;
             for(int i = start; i < tmp_end; ++i){
@@ -30,7 +30,7 @@ int main(){
                 int index_j = (q+i)->j;
                 //printf("(%d,%d) step:%d\n", index_i, index_j, (q+i)->step);
                 if(index_i == n-1 && index_j == m-1){
-                    ans = step-1;
+                    ans = step;
                     break;
                 }
                 if(table[index_i][index_j] == '*'){
@@ -77,7 +77,6 @@ int main(){
         }else{
             printf("%d\n", ans);
         }
+        free(q);
     }
-    return 0;
-    
 }
